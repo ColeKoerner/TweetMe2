@@ -5,7 +5,7 @@ from .models import Tweet
 
 MAX_TWEET_LENGTH = settings.MAX_TWEET_LENGTH
 
-class TweetSerializers(serializers.ModelSerializer):
+class TweetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tweet
         field = ['content']
