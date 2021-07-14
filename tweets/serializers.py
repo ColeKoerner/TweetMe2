@@ -1,4 +1,3 @@
-from projects.TweetMe2.tweetme2.settings import MAX_TWEET_LENGTH
 from django.conf import settings
 from rest_framework import serializers
 from .models import Tweet
