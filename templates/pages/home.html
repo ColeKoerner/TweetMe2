@@ -143,7 +143,7 @@ function loadTweets(tweetsElement) {
 
 loadTweets(tweetsContainerElement)
 
-function handleDidLike (tweet_id, currentCount, action) {
+function handleTweetActionBtn(tweet_id, currentCount, action) {
     console.log(tweet_id, currentCount)
     // currentCount++
     const url = "api/tweets/action"
@@ -167,15 +167,26 @@ function handleDidLike (tweet_id, currentCount, action) {
     return 
 }
 
+function RetweetBtn(tweet) {
+    return "<button class='btn btn-outline-success btn-sm' onclick=handleTweetActionBtn(" + tweet.id + "," + tweet.likes + ",'retweet')>Retweet</button>"
+}
+
+function UnLikeBtn(tweet) {
+    return "<button class='btn btn-outline-primary btn-sm' onclick=handleTweetActionBtn(" + tweet.id + "," + tweet.likes + ",'unlike')>Unlike</button>"
+}
+
 function LikeBtn(tweet) {
-    return "<button class='btn btn-primary btn-sm' onclick=handleDidLike(" + tweet.id + "," + tweet.likes + ",'like')>" + tweet.likes + " Likes</button>"
+    return "<button class='btn btn-primary btn-sm' onclick=handleTweetActionBtn(" + tweet.id + "," + tweet.likes + ",'like')>" + tweet.likes + " Likes</button>"
 }
 
 function formatTweetElement(tweet) {
 
     var formattedTweet = "<div class='col-12 col-md-10 mx-auto border rounded py-3 mb-4 tweet' id='tweet-" + tweet.id 
     + "'><p>" + tweet.content + 
-        "</p><div class='btn-group'>" + LikeBtn(tweet) +
+        "</p><div class='btn-group'>" + 
+            LikeBtn(tweet) +
+            UnLikeBtn(tweet) +
+            RetweetBtn(tweet) +
         "</div></div>"
     return formattedTweet
 }
