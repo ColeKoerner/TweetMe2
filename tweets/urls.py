@@ -7,7 +7,10 @@ from .views import (
     tweet_delete_view,
     tweet_action_view
 )
-
+'''
+Client
+Base Endpoint /api/tweets/
+'''
 urlpatterns = [
     path('', tweet_list_view),
     path('action/', tweet_action_view),
