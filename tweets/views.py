@@ -64,10 +64,12 @@ def tweet_action_view(request, *args, **kwargs):
             return Response(serializer.data, status=200)
         elif action == "unlike":
             obj.likes.remove(request.user)
+            serializer = TweetSerializer(obj)
+            return Response(serializer.data, status=200)
         elif action == "retweet":
             new_tweet = Tweet.objects.create(user=request.user, parent=obj, content=content,)
             serializer = TweetSerializer(new_tweet)
-            pass
+            return Response(serializer.data, status=201)
         return Response({}, status=200)
 
 @api_view(['DELETE', 'POST'])
@@ -78,7 +80,7 @@ def tweet_delete_view(request, tweet_id, *args, **kwargs):
         return Response({}, status=404)
     qs = qs.filter(user=request.user)
     if not qs.exists():
-        return Response({"messge": "You cannot delete this tweet"}, status=404)
+        return Response({"messge": "You cannot delete this tweet"}, status=401)
     obj = qs.first()
     obj.delete()
     return Response({"messge": "Tweet removed"}, status=200)
