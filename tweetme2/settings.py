@@ -26,7 +26,7 @@ SECRET_KEY = 'yjyzr)awrwbf5$zs7!he)xvg_n=d3(b=w8goty0dav$sroh5!-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.mydomain.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.mydomain.com', 'localhost']
 LOGIN_URL = "/login"
 TWEET_ACTION_OPTIONS = ["like", "unlike", "retweet"]
 MAX_TWEET_LENGTH = 240
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # third-party
+    'corsheaders',
     'rest_framework',
     # internal
     'tweets',
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'tweetme2.urls'
@@ -125,6 +127,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CORS_ORIGIN_ALLOW_ALL = True # any website has access to api
+
+CORS_URLS_REGEX = r"^/api/.*$"
+
 
 # DEFAULT_RENDERER_CLASSES = [
 #     'rest_framework.renderers.JSONRenderer',
