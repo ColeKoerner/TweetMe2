@@ -14,3 +14,11 @@
     -> Logout
     -> Profile
         -> Image?
+
+Installed
+ - Python
+ - Django
+ - Django rest framework
+ - Django-cors-headers
+ - Npm
+ - 

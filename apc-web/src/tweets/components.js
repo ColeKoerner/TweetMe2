@@ -4,11 +4,17 @@ import {loadTweets} from '../lookup'
 
 export function TweetsComponet(props) {
     const textAreaRef = React.createRef()
+    const [newTweets, setNewTweets] = useState()
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log(event)
         const newVal = textAreaRef.current.value
-        console.log(newVal)
+        let tempNewTweets = [...newTweets]
+        tempNewTweets.unshift({
+            content: newVal,
+            likes: 0,
+            id: 123123
+        })
+        setNewTweets(tempNewTweets)
         textAreaRef.current.value = ''
     }
     return <div className={props.className}>
@@ -20,19 +26,19 @@ export function TweetsComponet(props) {
                 <button type='submit' className='btn btn-primary my-3'>Tweet</button>
             </form>
         </div>
-    <TweetsList />
+    <TweetsList  newTweets={newTweets}/>
     </div>
 }
 
 export function TweetsList(props) {
-    const [tweets, setTweets] = useState([{content: 123}])
-
+    const [tweetsInit, setTweetsInit] = useState([{content: 123}])
+    setTweetsInit(props.newTweets)
 
     useEffect(() =>{
         // do my lookup
         const myCallback = (response, status) => {
         if(status === 200){
-            setTweets(response)
+            setTweetsInit(response)
         }
         else {
             alert("There was an error")
@@ -40,7 +46,7 @@ export function TweetsList(props) {
         }
         loadTweets(myCallback)
     }, [])
-    return tweets.map((item, index)=>{
+    return tweetsInit.map((item, index)=>{
         return <Tweet tweet={item} className='my-5 py-5 border bg-white text-dark' key={`${index}-{item.id}`}/>
     })
 }  
