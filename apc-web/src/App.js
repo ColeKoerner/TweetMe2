@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 
-import {TweetsList} from './tweets'
+import {TweetsComponet} from './tweets'
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <div>
-          <TweetsList />
+          <TweetsComponet />
         </div>
         <a
           className="App-link"
