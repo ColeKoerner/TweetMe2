@@ -8,36 +8,47 @@ export function TweetsComponet(props) {
     const handleSubmit = (event) => {
         event.preventDefault()
         const newVal = textAreaRef.current.value
-        let tempNewTweets = [...newTweets]
-        tempNewTweets.unshift({
-            content: newVal,
-            likes: 0,
-            id: 123123
-        })
-        setNewTweets(tempNewTweets)
+        console.log(newVal)
+        console.log(newTweets)
+        // let tempNewTweets = [...newTweets]
+        // tempNewTweets.unshift({
+        //     content: newVal,
+        //     likes: 0,
+        //     id: 123123
+        // })
+        // setNewTweets(tempNewTweets)
         textAreaRef.current.value = ''
     }
     return <div className={props.className}>
-        <div className='col-12 mb-3'>
-            <form onSubmit={handleSubmit}>
-                <textarea ref={textAreaRef} required={true} className='form-control' name='tweet'>
+            <div className='col-12 mb-3'>
+                <form onSubmit={handleSubmit}>
+                    <textarea ref={textAreaRef} required={true} className='form-control' name='tweet'>
 
-                </textarea>
-                <button type='submit' className='btn btn-primary my-3'>Tweet</button>
-            </form>
-        </div>
-    <TweetsList  newTweets={newTweets}/>
+                    </textarea>
+                    <button type='submit' className='btn btn-primary my-3'>Tweet</button>
+                </form>
+            </div>
+        <TweetsList newTweets={newTweets}/>
     </div>
+
 }
 
 export function TweetsList(props) {
-    const [tweetsInit, setTweetsInit] = useState([{content: 123}])
-    setTweetsInit(props.newTweets)
+    const [tweetsInit, setTweetsInit] = useState([])
+    // const [tweets, setTweets] = useState([])
+    // useEffect(() =>{
+    //     // const final = [...props.newTweets].concat(tweetsInit)
+    //     const final = [...props.newTweets]
+    //     if (final.length !== tweets.length) {
+    //         setTweets(final)
+    //     }
+    // }, [props.newTweets, tweets, tweetsInit])
 
     useEffect(() =>{
         // do my lookup
         const myCallback = (response, status) => {
         if(status === 200){
+            console.log(response)
             setTweetsInit(response)
         }
         else {
@@ -46,6 +57,8 @@ export function TweetsList(props) {
         }
         loadTweets(myCallback)
     }, [])
+    
+    console.log(tweetsInit[1])
     return tweetsInit.map((item, index)=>{
         return <Tweet tweet={item} className='my-5 py-5 border bg-white text-dark' key={`${index}-{item.id}`}/>
     })
