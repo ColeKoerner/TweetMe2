@@ -4,19 +4,18 @@ import {loadTweets} from '../lookup'
 
 export function TweetsComponet(props) {
     const textAreaRef = React.createRef()
-    const [newTweets, setNewTweets] = useState()
+    const [newTweets, setNewTweets] = useState([])
+    console.log(props)
     const handleSubmit = (event) => {
         event.preventDefault()
         const newVal = textAreaRef.current.value
-        console.log(newVal)
-        console.log(newTweets)
-        // let tempNewTweets = [...newTweets]
-        // tempNewTweets.unshift({
-        //     content: newVal,
-        //     likes: 0,
-        //     id: 123123
-        // })
-        // setNewTweets(tempNewTweets)
+        let tempNewTweets = [...newTweets]
+        tempNewTweets.unshift({
+            content: newVal,
+            likes: 0,
+            id: 123123
+        })
+        setNewTweets(tempNewTweets)
         textAreaRef.current.value = ''
     }
     return <div className={props.className}>
@@ -34,32 +33,30 @@ export function TweetsComponet(props) {
 }
 
 export function TweetsList(props) {
-    const [tweetsInit, setTweetsInit] = useState([])
-    // const [tweets, setTweets] = useState([])
-    // useEffect(() =>{
-    //     // const final = [...props.newTweets].concat(tweetsInit)
-    //     const final = [...props.newTweets]
-    //     if (final.length !== tweets.length) {
-    //         setTweets(final)
-    //     }
-    // }, [props.newTweets, tweets, tweetsInit])
+    const [tweetsInit, setTweetsInit] = useState(props.newTweets ? props.newTweets : [])
+    // setTweetsInit(props.newTweets)
+    const [tweets, setTweets] = useState([])
+    useEffect(() =>{
+        const final = [...props.newTweets].concat(tweetsInit)
+        // const final = [...props.newTweets]
+        if (final.length !== tweets.length) {
+            setTweets(final)
+        }
+    }, [props.newTweets, tweets, tweetsInit])
 
     useEffect(() =>{
         // do my lookup
         const myCallback = (response, status) => {
-        if(status === 200){
-            console.log(response)
-            setTweetsInit(response)
-        }
-        else {
-            alert("There was an error")
-        }
+            if(status === 200){
+                const finalTweetsInit = [...response].concat(tweetsInit)
+                setTweetsInit(finalTweetsInit)
+            } else {
+                alert("There was an error")
+            }
         }
         loadTweets(myCallback)
-    }, [])
-    
-    console.log(tweetsInit[1])
-    return tweetsInit.map((item, index)=>{
+    }, [tweetsInit])
+    return tweets.map((item, index)=>{
         return <Tweet tweet={item} className='my-5 py-5 border bg-white text-dark' key={`${index}-{item.id}`}/>
     })
 }  
