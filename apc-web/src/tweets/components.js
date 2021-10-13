@@ -10,6 +10,7 @@ export function TweetsComponet(props) {
         event.preventDefault()
         const newVal = textAreaRef.current.value
         let tempNewTweets = [...newTweets]
+        // change to server side call
         tempNewTweets.unshift({
             content: newVal,
             likes: 0,
@@ -33,7 +34,8 @@ export function TweetsComponet(props) {
 }
 
 export function TweetsList(props) {
-    const [tweetsInit, setTweetsInit] = useState(props.newTweets ? props.newTweets : [])
+    // const [tweetsInit, setTweetsInit] = useState(props.newTweets ? props.newTweets : [])
+    const [tweetsInit, setTweetsInit] = useState([])
     // setTweetsInit(props.newTweets)
     const [tweets, setTweets] = useState([])
     useEffect(() =>{
@@ -48,8 +50,8 @@ export function TweetsList(props) {
         // do my lookup
         const myCallback = (response, status) => {
             if(status === 200){
-                const finalTweetsInit = [...response].concat(tweetsInit)
-                setTweetsInit(finalTweetsInit)
+                // const finalTweetsInit = [...response].concat(tweetsInit)
+                setTweetsInit(response)
             } else {
                 alert("There was an error")
             }
