@@ -73,27 +73,18 @@ export function TweetsList(props) {
 }  
 
 export function ActionBtn(props) {
-    const {tweet, action} = props
-    let [likes, setLikes] = useState(tweet.likes ? tweet.likes : 0)
-    // const [userLike, setUserLike] = useState(tweet.userLike === true ? true : false)
+    const {tweet, action, didPerformAction} = props
+    const likes = tweet.likes ? tweet.likes : 0
     const className = props.className ? props.className : 'btn btn-primary btn-sm'
     const actionDisplay = action.display ? action.display : 'Action'
+
     const handleActionBackendEvent = (response, status) => {
         console.log(response, status)
-        if (status === 200){
-            setLikes(response.likes)
-            // setUserLike(true)
+        if ((status === 200 || status === 201) && didPerformAction) {
+            didPerformAction(response) 
         }
-        // if (action.type === 'like') {
-        //     if (userLike === true) {
-        //         setLikes(likes - 1)
-        //         setUserLike(false)
-        //     } else {
-        //         setLikes(likes + 1)
-        //         setUserLike(true)
-        //     }
-        // }
     }
+
     const handleClick = (event) => {
         event.preventDefault()
         apiTweetAction(tweet.id, action.type, handleActionBackendEvent)
@@ -114,16 +105,23 @@ export function ParentTweet(props){
 
 export function Tweet(props) {
     const {tweet} = props
+    const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
     const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
+
+    const handlePerformAction = (newActionTweet) => {
+        setActionTweet(newActionTweet)
+    }
+
     return <div className={className}>
             <div>
                 <p>{tweet.id} - {tweet.content}</p>
                 <ParentTweet tweet={tweet} />
             </div>
-        <div className='btn btn-group'> 
-        <ActionBtn tweet={tweet} action={{type:"like", display:"Likes"}} />
-        <ActionBtn tweet={tweet} action={{type:"unlike", display:"UnLike"}} />
-        <ActionBtn tweet={tweet} action={{type:"retweet", display:"Retweet"}} />
-        </div>
+        {actionTweet && <div className='btn btn-group'> 
+                <ActionBtn tweet={tweet} didPerformAction={handlePerformAction} action={{type:"like", display:"Likes"}} />
+                <ActionBtn tweet={tweet} didPerformAction={handlePerformAction} action={{type:"unlike", display:"UnLike"}} />
+                <ActionBtn tweet={tweet} didPerformAction={handlePerformAction} action={{type:"retweet", display:"Retweet"}} />
+            </div>
+        }
     </div>
 }
