@@ -4,7 +4,7 @@ export function apiTweetCreate(newTweet, callback){
     backendLookup("POST", "/tweets/create/", callback, {content: newTweet})
 }
 
-export function apiTweetdetail(tweetId, callback) {
+export function apiTweetDetail(tweetId, callback) {
     backendLookup("GET", `/tweets/${tweetId}/`, callback)
 }
 

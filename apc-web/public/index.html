@@ -30,6 +30,8 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <div id='apc-web-container'></div>
     <div id="apc-web" data-username="admin" data-can-tweet="true"></div>
     <!--
       This HTML file is a template.
@@ -41,5 +43,19 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      var path = window.location.pathname
+      var idRegex = /(?<tweetid>\d+)/
+      var match = path.match(idRegex)
+      if (match){
+        const tweetId = match.groups.tweetid
+        var apcWebEl = document.getElementById("apc-web")
+        apcWebEl.className = 'd-none'
+        var tweetEl = "<div class='apc-web-detail' data-tweet-id=" + tweetId + " data-class-name='col-6 mx-auto'></div>"
+        var mainContainer = document.getElementById("apc-web-container")
+        mainContainer.innerHTML = tweetEl
+      }
+
+    </script>
   </body>
 </html>
