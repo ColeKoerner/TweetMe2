@@ -15,9 +15,14 @@ if (appEl) {
   );
 }
 
+const e = React.createElement
+
 const tweetsEl = document.getElementById("apc-web")
 if (tweetsEl){
-  ReactDOM.render(<TweetsComponet />, tweetsEl);
+  ReactDOM.render(
+    e(TweetsComponet, tweetsEl.dataset), 
+    tweetsEl
+  );
 }
 
 // If you want to start measuring performance in your app, pass a function
