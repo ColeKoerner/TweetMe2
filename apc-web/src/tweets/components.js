@@ -118,9 +118,9 @@ export function Tweet(props) {
                 <ParentTweet tweet={tweet} />
             </div>
         {actionTweet && <div className='btn btn-group'> 
-                <ActionBtn tweet={tweet} didPerformAction={handlePerformAction} action={{type:"like", display:"Likes"}} />
-                <ActionBtn tweet={tweet} didPerformAction={handlePerformAction} action={{type:"unlike", display:"UnLike"}} />
-                <ActionBtn tweet={tweet} didPerformAction={handlePerformAction} action={{type:"retweet", display:"Retweet"}} />
+                <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{type:"like", display:"Likes"}} />
+                <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{type:"unlike", display:"UnLike"}} />
+                <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{type:"retweet", display:"Retweet"}} />
             </div>
         }
     </div>
