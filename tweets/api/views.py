@@ -9,13 +9,14 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from ..forms import TweetForm
 from ..models import Tweet
 from ..serializers import TweetSerializer, TweetActionSerializer, TweetCreateSerializer
 
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
-@api_view(['POST']) # http method
+@api_view(['POST', 'GET']) # http method
 # @authentication_classes([SessionAuthentication])
 @permission_classes([IsAuthenticated])
 def tweet_create_view(request, *args, **kwargs):
@@ -81,28 +82,36 @@ def tweet_delete_view(request, tweet_id, *args, **kwargs):
     obj.delete()
     return Response({"messge": "Tweet removed"}, status=200)
 
+def get_paginated_queryset_response(qs, request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    paginated_qs = paginator.paginate_queryset(qs, request)
+    serializer = TweetSerializer(paginated_qs, many=True)
+    return paginator.get_paginated_response(serializer.data)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def tweet_feed_view(request, *args, **kwargs):
     user = request.user
-    profiles = user.following.all()
-    followed_users_id = []
-    if profiles.exists():
-        followed_users_id = [x.user.id for x in profiles]
-    followed_users_id.append(user.id)
-    qs = Tweet.objects.filter(user__id__in=[user.id]).order_by("-timestamp")
-    serializer = TweetSerializer(qs, many=True)
-    return Response(serializer.data)
+    qs = Tweet.objects.feed(user)
+    return get_paginated_queryset_response(qs, request)
 
 @api_view(['GET'])
 def tweet_list_view(request, *args, **kwargs):
-    # qs = request.http(api)
     qs = Tweet.objects.all()
     username = request.GET.get('username')
     if username != None:
-        qs = qs.filter(user__username__iexact=username)
-    serializer = TweetSerializer(qs, many=True)
-    return Response(serializer.data)
+        qs = qs.by_username(username)
+    return get_paginated_queryset_response(qs, request)
+
+# def tweet_list_view(request, *args, **kwargs):
+#     # qs = request.http(api)
+#     qs = Tweet.objects.all()
+#     username = request.GET.get('username')
+#     if username != None:
+#         qs = qs.filter(user__username__iexact=username)
+#     serializer = TweetSerializer(qs, many=True)
+#     return Response(serializer.data)
 
 def tweet_create_view_pure_django(request, *args, **kwargs):
     '''
