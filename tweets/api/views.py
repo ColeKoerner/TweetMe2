@@ -16,7 +16,7 @@ from ..serializers import TweetSerializer, TweetActionSerializer, TweetCreateSer
 
 ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
-@api_view(['POST', 'GET']) # http method
+@api_view(['POST']) # http method
 # @authentication_classes([SessionAuthentication])
 @permission_classes([IsAuthenticated])
 def tweet_create_view(request, *args, **kwargs):
