@@ -104,15 +104,6 @@ def tweet_list_view(request, *args, **kwargs):
         qs = qs.by_username(username)
     return get_paginated_queryset_response(qs, request)
 
-# def tweet_list_view(request, *args, **kwargs):
-#     # qs = request.http(api)
-#     qs = Tweet.objects.all()
-#     username = request.GET.get('username')
-#     if username != None:
-#         qs = qs.filter(user__username__iexact=username)
-#     serializer = TweetSerializer(qs, many=True)
-#     return Response(serializer.data)
-
 def tweet_create_view_pure_django(request, *args, **kwargs):
     '''
     REST API Create View -> Django rest framework

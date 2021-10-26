@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    <div id='apc-web-feed'></div>
+
+{% else %}
+    <div id='apc-web'></div>
+{% endif %}
+
+{% endblock content %}

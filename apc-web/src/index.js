@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { TweetsComponet, TweetDetailComponent } from './tweets';
+import { FeedComponet, TweetsComponet, TweetDetailComponent } from './tweets';
 import reportWebVitals from './reportWebVitals';
 
 const appEl = document.getElementById('root')
@@ -23,6 +23,12 @@ if (tweetsEl){
     e(TweetsComponet, tweetsEl.dataset), 
     tweetsEl
   );
+}
+
+const tweetFeedEl = document.getElementById("apc-web-feed")
+if (tweetFeedEl){
+  ReactDOM.render(
+    e(FeedComponet, tweetFeedEl.dataset), tweetFeedEl);
 }
 
 const tweetDetailElements = document.querySelectorAll(".apc-web-detail")

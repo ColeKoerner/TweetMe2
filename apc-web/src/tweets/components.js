@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 
 import { TweetsList } from "./list";
 
+import { FeedList } from "./feed";
+
 import { TweetCreate } from './create';
 
 import {apiTweetDetail} from './lookup';
@@ -20,6 +22,22 @@ export function TweetsComponet(props) {
     return <div className={props.className}>
             {canTweet === true && <TweetCreate didTweet={handleDidTweet} className='col-12 mb-3' />}
         <TweetsList newTweets={newTweets} {...props}/>
+    </div>
+
+}
+
+export function FeedComponet(props) {
+    const [newTweets, setNewTweets] = useState([])
+    const canTweet = props.canTweet === "false" ? false : true
+    const handleDidTweet = (newTweet) =>{
+        // backend api response handler
+        let tempNewTweets = [...newTweets]
+        tempNewTweets.unshift(newTweet)
+        setNewTweets(newTweet)
+    }
+    return <div className={props.className}>
+            {canTweet === true && <TweetCreate didTweet={handleDidTweet} className='col-12 mb-3' />}
+        <FeedList newTweets={newTweets} {...props}/>
     </div>
 
 }

@@ -13,7 +13,7 @@ Client
 Base Endpoint /api/tweets/
 '''
 urlpatterns = [
-    path('', tweet_list_view),
+    path('global/', tweet_list_view),
     path('feed/', tweet_feed_view),
     path('action/', tweet_action_view),
     path('create/', tweet_create_view),
