@@ -21,8 +21,9 @@ export function UserDisplay(props){
 }
 
 export function UserPicture (props) {
-    const {user} = props
-    return <UserLink username={user.username}><span className='mx-2 px-3 py-2 rounded-circle bg-dark text-white'>
+    const {user, hideLink} = props
+    const userIdSpan = <span className='mx-2 px-3 py-2 rounded-circle bg-dark text-white'>
         {user.username[0]}
-    </span></UserLink>
+    </span>
+    return hideLink === true ? userIdSpan : <UserLink username={user.username}> {userIdSpan} </UserLink>
 }
