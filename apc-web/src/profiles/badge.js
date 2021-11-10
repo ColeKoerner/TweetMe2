@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react'
 
+import numeral from 'numeral'
+
 import { apiProfileDetail, apiProfileFollowToggle } from './lookup'
 
 import {UserDisplay, UserPicture} from './components'
+
+function DisplayCount(props) {
+    return <span className={props.className}>{numeral(props.children).format("0.0a")}</span>
+}
 
 function ProfileBadge (props) {
     const {user, didFollowToggle, profileLoading} = props
@@ -17,6 +23,8 @@ function ProfileBadge (props) {
     return user ? <div>
         <UserPicture user={user} hideLink/>
         <p><UserDisplay user={user} includeFullName hideLink /></p>
+        <p>Followers: <DisplayCount> {user.follower_count}</DisplayCount></p>
+        <p>Following: <DisplayCount>{user.following_count}</DisplayCount></p>
         <button className='btn btn-primary' onClick={handleFollowToggle}>{currentVerb} </button>
     </div> : null
 }
@@ -44,6 +52,7 @@ export function ProfileBadgeComponent (props) {
         apiProfileFollowToggle(username, actionVerb, (response, status)=>{
             if (status===200) {
                 setProfile(response)
+                // apiProfileDetail(username, handleBackendLookup)
             }
             setProfileLoading(false)
         })
