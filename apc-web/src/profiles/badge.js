@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react'
 
-import { apiProfileDetail } from './lookup'
+import { apiProfileDetail, apiProfileFollowToggle } from './lookup'
 
 import {UserDisplay, UserPicture} from './components'
 
 function ProfileBadge (props) {
     const {user, didFollowToggle, profileLoading} = props
-    console.log(user)
     let currentVerb = (user && user.is_following) ? "Unfollow" : "Follow"
     currentVerb = profileLoading ? "Loading..." : currentVerb
     const handleFollowToggle = (event) => {
-        console.log(event)
         event.preventDefault()
         if (didFollowToggle && !profileLoading){
             didFollowToggle(currentVerb)
@@ -43,7 +41,12 @@ export function ProfileBadgeComponent (props) {
     }, [didLookup, setDidLookup, username])
 
     const handleNewFollow = (actionVerb) => {
-        console.log(actionVerb)
+        apiProfileFollowToggle(username, actionVerb, (response, status)=>{
+            if (status===200) {
+                setProfile(response)
+            }
+            setProfileLoading(false)
+        })
         setProfileLoading(true)
     }
     return didLookup === false ? "Loading..." : profile ? <ProfileBadge user={profile} didFollowToggle={handleNewFollow} profileLoading={profileLoading}/> : null
