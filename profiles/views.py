@@ -49,3 +49,5 @@ def profile_detail_view(request, username, *args, **kwargs):
         "is_following": is_following  
     }
     return render(request, "profiles/detail.html", context)
+
+    
