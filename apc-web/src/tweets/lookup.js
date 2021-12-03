@@ -17,9 +17,9 @@ export function apiTweetFeed(callback, nextUrl) {
 }
 
 export function apiTweetList(username, callback, nextUrl) {
-    let endpoint = "/tweets/"
+    let endpoint = "/tweets/global/"
     if (username){
-        endpoint = `/tweets/?username=${username}`
+        endpoint = `/tweets/global/?username=${username}`
     }
     if (nextUrl !== null && nextUrl !== undefined){
         endpoint = nextUrl.replace("http://localhost:8000/api", "")

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { ProfileBadgeComponent } from './profiles';
+import { BillsView } from './bills';
 import { FeedComponet, TweetsComponet, TweetDetailComponent } from './tweets';
 import reportWebVitals from './reportWebVitals';
 
@@ -24,6 +25,12 @@ if (tweetsEl){
     e(TweetsComponet, tweetsEl.dataset), 
     tweetsEl
   );
+}
+
+const billsFeedEl = document.getElementById("apc-web-bill")
+if (billsFeedEl){
+  ReactDOM.render(
+    e(BillsView, billsFeedEl.dataset), billsFeedEl);
 }
 
 const tweetFeedEl = document.getElementById("apc-web-feed")
