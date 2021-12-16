@@ -10,6 +10,7 @@ export function BillsView(props) {
             const handleBillLookup = (response, status) => {
                 if(status === 200){
                     setBills(response.results)
+                    console.log(response.results)
                     setDidSet(true)
                 }
             }
